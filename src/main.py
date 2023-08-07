@@ -1,4 +1,4 @@
-from fastapi import FastAPI 
+from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel 
 import pandas as pd 
 import boto3 
@@ -54,6 +54,22 @@ def renvoie_toutes_images():
 def delete_image(image_id: str):
     s3_client.delete_object(Bucket='projecttolondon', Key=image_id)
     return {"Image":" deleted"}
+
+@app.post('/images/')
+async def upload_image(file: UploadFile=File(...)):
+    
+    content_file = await file.read() 
+
+    with open(file_name, "wb") as image_id:
+        image_id.write(content_file) 
+    
+     
+    print('------------------------------------------------------------------------------------------------------------------------------------------------')
+    print(image_id.name)
+    print('------------------------------------------------------------------------------------------------------------------------------------------------')
+    s3_client.upload_file(image_id.name, "projecttolondon", image_id.name)
+    return {f"Le ficher {image_id.name} ": " a été ajouté avec succès"}
+    
 
     
     

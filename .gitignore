@@ -1,5 +1,11 @@
 venv/ 
+src2/ 
+src/__pycache__
 
 learn.ipynb
 bar.csv
 foo.csv
+test.py 
+Orga.txt 
+test.txt
+
