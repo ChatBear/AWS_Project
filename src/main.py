@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel 
 import pandas as pd 
 import boto3 
@@ -13,8 +14,22 @@ AWS_REGION = os.environ.get("AWS_REGION")
 S3_Bucket = os.environ.get("S3_Bucket")
 S3_Key = os.environ.get("S3_Key")
 
+origins = [
+    "http://localhost",
+    "http://localhost:3001",  # Ajoutez les origines autorisées ici
+    "https://example.com"
+]
+
 
 app = FastAPI() 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 s3_client = boto3.client(service_name='s3',
                             region_name=AWS_REGION, 
                             aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -57,17 +72,16 @@ def delete_image(image_id: str):
 
 @app.post('/images/')
 async def upload_image(file: UploadFile=File(...)):
-    
+    file_name = file.filename
     content_file = await file.read() 
-
+   
     with open(file_name, "wb") as image_id:
         image_id.write(content_file) 
     
-     
-    print('------------------------------------------------------------------------------------------------------------------------------------------------')
-    print(image_id.name)
-    print('------------------------------------------------------------------------------------------------------------------------------------------------')
     s3_client.upload_file(image_id.name, "projecttolondon", image_id.name)
+
+
+
     return {f"Le ficher {image_id.name} ": " a été ajouté avec succès"}
     
 
