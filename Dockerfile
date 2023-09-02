@@ -1,8 +1,12 @@
-FROM python
-
-WORKDIR /Users/shiraz/Desktop/ML Engineer prep/AWS_Project/src
-COPY requirement.txt requirement.txt
+FROM python:3.11
+RUN pip install poetry
+WORKDIR src/
 
 COPY src/ ./
-RUN pip3 install -r requirement.txt 
+COPY pyproject.toml ./
+COPY poetry.lock ./
+RUN poetry config virtualenvs.create false 
+RUN poetry install 
+#CMD ["uvicorn", "main:app","--reload","--port","78", "--host", "79"]
+
 

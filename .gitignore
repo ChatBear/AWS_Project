@@ -8,4 +8,6 @@ foo.csv
 test.py 
 Orga.txt 
 test.txt
-
+poetry.lock
+pyproject.toml
+learnship/

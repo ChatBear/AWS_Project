@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect, Button } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropzone } from '@mantine/dropzone';
 import { Paper, Text } from '@mantine/core';
 
@@ -41,7 +41,7 @@ function ImageGallery() {
       <h1>Image Gallery (from s3) </h1>
       <div class="images">
         {imageUrls.map((url, index) => (
-          <img key={index} src={url} alt={`Image ${index}`} style={{ maxWidth: '200px', margin: '10px'}} />
+          <img key={index} src={url} alt={`ok ${index}`} style={{ maxWidth: '200px', margin: '10px'}} />
         ))}
       </div>
     </div>
